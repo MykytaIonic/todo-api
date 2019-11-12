@@ -19,4 +19,7 @@ export class Todos {
 
   @Column()
   position: string;
+
+//  @Column()
+//  photo: object;
 }
