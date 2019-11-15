@@ -5,6 +5,7 @@ import { Todos } from '../models/todo.model';
 import { AuthGuard } from '@nestjs/passport';
 import { MulterOptions } from '../multer-config';
 import { PhotoService } from '.././photo/photo.service';
+import { identifier } from '@babel/types';
 
 @Controller('todos')
 export class TodosController {
@@ -41,10 +42,11 @@ export class TodosController {
        return await this.todosService.delete(id);
   }
 
-  @Post('image')
+  @Post('image/:id')
   @UseInterceptors(AnyFilesInterceptor(MulterOptions))
-  async uploadFile(@UploadedFiles() files, @Req() req) {
-    return await this.photoService.changeImage(req.todoId, files[0].filename);
+  async uploadFile(@UploadedFiles() files, @Param('id') id, @Req() req) {
+    debugger;
+    return await this.photoService.changeImage(id, files[0].filename);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -55,9 +57,10 @@ export class TodosController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Delete('photo/delete/:id')
-     async remove(@Param('id') id): Promise<any> {
-      return await this.photoService.remove(id);
+  @Post('photo/delete/:id')
+     async remove(@Param('id') id, @Body('name') photoName): Promise<any> {
+       console.log(photoName);
+      return await this.photoService.remove(id, photoName);
   }
 
 }

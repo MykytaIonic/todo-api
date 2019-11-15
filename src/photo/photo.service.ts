@@ -19,7 +19,15 @@ export class PhotoService {
   });
 }
 
-async remove(id): Promise<DeleteResult> {
+async remove(id, photoName): Promise<DeleteResult> {
+  debugger;
+  const fs = require('fs');
+  const filename = photoName;
+  const file = 'photos/';
+  fs.unlink(file + filename, function (err) {
+    if (err) throw err;
+    console.log('File deleted!');
+  }); 
   return await this.photoRepository.delete(id);
 }
 
