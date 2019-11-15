@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ObjectIdColumn } from 'typeorm'
 
 @Entity()
 export class Todos {
+
   @ObjectIdColumn()
   id: number;
 
@@ -19,7 +20,4 @@ export class Todos {
 
   @Column()
   position: string;
-
-//  @Column()
-//  photo: object;
 }

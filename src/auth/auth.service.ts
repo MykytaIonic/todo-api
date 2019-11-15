@@ -10,7 +10,6 @@ export class AuthService {
   ) { }
 
   public async validate(userData: User): Promise<User> {
-    debugger;
     return await this.userService.findByEmail(userData.email);
   }
 

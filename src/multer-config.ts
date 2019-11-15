@@ -1,5 +1,4 @@
 import { diskStorage } from 'multer';
-
 export const MulterOptions = {
         limits: {
             fileSize: 10000000000000,
@@ -16,7 +15,8 @@ export const MulterOptions = {
                 cb(null, 'photos/');
             },
             filename(req: any, file, cb) {
-                cb(null, `photos.png`);
+                const timestamp = new Date().getTime().toString();
+                cb(null, `photos${timestamp}.png`);
             },
         }),
 };

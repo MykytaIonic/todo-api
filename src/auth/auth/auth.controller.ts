@@ -47,10 +47,8 @@ export class AuthController {
 
   @Post('registerSocial')
   async registerSocial(@Body() user: User, @Res() res): Promise<any> {
-    debugger;
     const result = await this.authService.registerSocial(user);
     if (result.status === 200) {
-      debugger;
       res.status(HttpStatus.CREATED).send({
         data: result,
       });
@@ -61,16 +59,5 @@ export class AuthController {
       });
     }
   }
-
-  /*@Post('loginSocial')
-  async loginSocial(@Body() user: User, @Res() res): Promise<any> {
-    const result = await this.authService.loginSocial(user);
-    if (result.status === 200) {
-      res.status(HttpStatus.CREATED).send({
-        data: result,
-      });
-    }
-
-  }*/
 
 }

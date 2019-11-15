@@ -2,25 +2,27 @@ import { UseInterceptors, UploadedFiles, Controller, Get, Post, Res, Delete, Bod
 import { TodosService } from './todos.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Todos } from '../models/todo.model';
-import { CreateTodoDto } from '../create-todo/create-todo.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { MulterOptions } from '../multer-config';
+import { PhotoService } from '.././photo/photo.service';
 
 @Controller('todos')
 export class TodosController {
-  constructor(private todosService: TodosService, ) {}
+  constructor(
+    private todosService: TodosService, 
+    private photoService: PhotoService,
+  ) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
   getTodo(@Req() req) {
-    const user = req.user;
     const user_id = req.user.id;
     return this.todosService.getTodo(user_id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Post('create')
-    async create(@Body() todoData: Todos): Promise<any> {
+    async create(@Body() todoData): Promise<any> {
       return this.todosService.create(todoData);
   }
 
@@ -32,6 +34,7 @@ export class TodosController {
         return this.todosService.update(todoData);
   }
 
+
   @UseGuards(AuthGuard('jwt'))
   @Delete('delete/:id')
      async delete(@Param('id') id): Promise<any> {
@@ -41,12 +44,20 @@ export class TodosController {
   @Post('image')
   @UseInterceptors(AnyFilesInterceptor(MulterOptions))
   async uploadFile(@UploadedFiles() files, @Req() req) {
-    console.log(files);
+    return await this.photoService.changeImage(req.todoId, files[0].filename);
   }
 
-  @Get(':imgpath')
-  seeUploadFile(@Param('imgpath') image, @Res() res) {
-    res.sendFile(image, { root: 'photos' });
+  @UseGuards(AuthGuard('jwt'))
+  @Get('photo/:id')
+  getPhoto(@Param('id') id: any) {
+      const todoId = id;
+      return this.photoService.getPhoto(todoId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('photo/delete/:id')
+     async remove(@Param('id') id): Promise<any> {
+      return await this.photoService.remove(id);
   }
 
 }
