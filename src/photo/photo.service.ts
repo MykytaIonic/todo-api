@@ -20,7 +20,6 @@ export class PhotoService {
 }
 
 async remove(id, photoName): Promise<DeleteResult> {
-  debugger;
   const fs = require('fs');
   const filename = photoName;
   const file = 'photos/';

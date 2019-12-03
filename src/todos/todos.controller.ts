@@ -42,10 +42,21 @@ export class TodosController {
        return await this.todosService.delete(id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Post('delete')
+     async deleteSqlite(@Body() todoData): Promise<any> {
+       return await this.todosService.deleteSqlite(todoData);
+  }
+
   @Post('image/:id')
   @UseInterceptors(AnyFilesInterceptor(MulterOptions))
+  async changeFile(@UploadedFiles() files, @Param('id') id, @Req() req) {
+    return await this.photoService.changeImage(id, files[0].filename);
+  }
+
+  @Post('image')
+  @UseInterceptors(AnyFilesInterceptor(MulterOptions))
   async uploadFile(@UploadedFiles() files, @Param('id') id, @Req() req) {
-    debugger;
     return await this.photoService.changeImage(id, files[0].filename);
   }
 
@@ -59,7 +70,6 @@ export class TodosController {
   @UseGuards(AuthGuard('jwt'))
   @Post('photo/delete/:id')
      async remove(@Param('id') id, @Body('name') photoName): Promise<any> {
-       console.log(photoName);
       return await this.photoService.remove(id, photoName);
   }
 

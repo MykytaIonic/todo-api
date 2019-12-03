@@ -11,6 +11,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() user: User, @Res() res): Promise<any> {
+    console.log('test')
     const result = await this.authService.login(user);
     if (result.status === 200) {
       res.status(HttpStatus.CREATED).send({

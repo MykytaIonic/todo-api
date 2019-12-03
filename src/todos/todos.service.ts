@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Todos } from '../models/todo.model';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { Photo } from '../models/photo.model';
 
 @Injectable()
 export class TodosService {
   ObjectId = require('mongodb').ObjectID;
+  public deleted = [];
   
   constructor(
     @InjectRepository(Todos) private todosRepository: Repository<Todos>,
@@ -23,15 +24,18 @@ export class TodosService {
   }
 
   async create(todoData): Promise<Todos> {
+    debugger;
     const { photos, todo } = todoData;
 
     const todoSave = await this.todosRepository.save(todo);
+
+    if (photos) {
     photos.forEach(x => {
       x.todoId = String(todoSave.id);
       x.id = this.ObjectId(x.id);
     });
     await this.photoRepository.save(photos);
-    
+  }
     return todoSave;
   }
 
@@ -40,7 +44,29 @@ export class TodosService {
   }
 
   async delete(id): Promise<DeleteResult> {
-    return await this.todosRepository.delete(id);
+    //return await this.todosRepository.delete(id);
+    const res = await this.todosRepository.delete(id);
+        if (res) {
+            const photos = await this.photoRepository.find({
+                todoId: id,
+            });
+            photos.forEach(a => {
+                const name = a.name;
+                const fs = require('fs');
+                const file = 'photos/';
+                fs.unlink(file + name, function (err) {
+                  if (err) throw err;
+                  console.log('File deleted!');
+                });
+            });
+            await this.photoRepository.remove(photos);
+        }
+        return res;
+  }
+
+  async deleteSqlite(todoData) {
+    const { deleted } = todoData;
+    return this.todosRepository.delete(deleted);
   }
 
 }

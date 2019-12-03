@@ -18,6 +18,7 @@ export class AuthService {
   }
 
   public async login(user: User): Promise<any | { status: number }> {
+    debugger
     const userData = await this.validate(user);
 
     if (!userData) {
