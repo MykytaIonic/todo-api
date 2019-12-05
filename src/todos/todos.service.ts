@@ -24,7 +24,6 @@ export class TodosService {
   }
 
   async create(todoData): Promise<Todos> {
-    debugger;
     const { photos, todo } = todoData;
 
     const todoSave = await this.todosRepository.save(todo);
@@ -43,8 +42,13 @@ export class TodosService {
     return await this.todosRepository.update(todo.id, todo);
   }
 
+  async updateSqlite(todoData): Promise<UpdateResult> {
+    debugger;
+    const { todo } = todoData;
+    return await this.todosRepository.update(todo.mongoId, todo);
+  }
+
   async delete(id): Promise<DeleteResult> {
-    //return await this.todosRepository.delete(id);
     const res = await this.todosRepository.delete(id);
         if (res) {
             const photos = await this.photoRepository.find({

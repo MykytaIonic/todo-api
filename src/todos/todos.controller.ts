@@ -35,6 +35,12 @@ export class TodosController {
         return this.todosService.update(todoData);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Put('update')
+    async updateSqlite(@Body() todoData: Todos): Promise<any> {
+        return await this.todosService.updateSqlite(todoData);
+  }
+
 
   @UseGuards(AuthGuard('jwt'))
   @Delete('delete/:id')
