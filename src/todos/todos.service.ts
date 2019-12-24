@@ -44,8 +44,13 @@ export class TodosService {
 
   async updateSqlite(todoData): Promise<UpdateResult> {
     debugger;
-    const { todo } = todoData;
-    return await this.todosRepository.update(todo.mongoId, todo);
+    let todo = todoData.updated;
+    todo.forEach(a => {
+      a.id = a.mongoId;
+      a.id = this.ObjectId(a.id);
+      console.log(typeof(a.mongoId));
+    })
+    return await this.todosRepository.save(todoData.updated);
   }
 
   async delete(id): Promise<DeleteResult> {

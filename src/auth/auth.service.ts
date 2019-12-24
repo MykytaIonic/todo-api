@@ -18,7 +18,6 @@ export class AuthService {
   }
 
   public async login(user: User): Promise<any | { status: number }> {
-    debugger
     const userData = await this.validate(user);
 
     if (!userData) {
@@ -53,13 +52,15 @@ export class AuthService {
     }
 
     user.password = crypto.createHmac('sha256', user.password).digest('hex');
-    //  return this.userService.create(user);
-    const data = this.userService.create(user);
+    const data = await this.userService.create(user);
+    const accessToken = jwt.sign(`${data.id}`, 'secret123');
 
     return {
-      data: data,
+      expires_in: 3600,
+      access_token: accessToken,
+      user_id: data.id,
       status: 200
-    }
+    };
   }
 
   public async registerSocial(user: User): Promise<any> {
