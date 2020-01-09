@@ -11,37 +11,33 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() user: User, @Res() res): Promise<any> {
-    console.log('test')
-    const result = await this.authService.login(user);
-    if (result.status === 200) {
+    try {
+      const result = await this.authService.login(user);
+
       res.status(HttpStatus.CREATED).send({
         data: result,
       });
-    }
-    if (result.status === 404) {
-      res.status(HttpStatus.NOT_FOUND).send({
-        msg: 'The user does not exists'
+
+    } catch (e) {
+      debugger
+      res.status(e.status).send({
+        msg: e.message,
       });
     }
-    if (result.status === 400) {
-      res.status(HttpStatus.NOT_FOUND).send({
-        msg: 'The password doesn\`t match.'
-      })
-    }
-
   }
 
   @Post('register')
   async register(@Body() user: User, @Res() res): Promise<any> {
+    try {
     const result = await this.authService.register(user);
-    if (result.status === 200) {
+
       res.status(HttpStatus.CREATED).send({
         data: result,
       });
-    }
-    if (result.status === 400) {
-      res.status(HttpStatus.NOT_FOUND).send({
-        msg: 'The user already exists'
+
+    } catch (e) {
+      res.status(e.status).send({
+        msg: e.message,
       });
     }
   }

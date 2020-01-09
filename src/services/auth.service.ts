@@ -22,16 +22,12 @@ export class AuthService {
     const userData = await this.validate(user);
 
     if (!userData) {
-      //console.log('The user does not exists');
-      //return { status: 404 };
       throw new ApplicationException(400, 'The user does not exists');
     }
 
     user.password = crypto.createHmac('sha256', user.password).digest('hex');
 
     if (userData.password != user.password) {
-      //console.log('The password doesn\`t match.');
-      //return { status: 400 };
       throw new ApplicationException(400, 'The password doesn\`t match');
     }
 
@@ -50,8 +46,6 @@ export class AuthService {
     const userData = await this.validate(user);
 
     if (userData) {
-      //console.log('The user already exists');
-      //return { status: 400 };
       throw new ApplicationException(400, "The user already exists");
     }
 
