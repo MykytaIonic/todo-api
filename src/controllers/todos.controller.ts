@@ -1,10 +1,10 @@
 import { UseInterceptors, UploadedFiles, Controller, Get, Post, Res, Delete, Body, Param, Put, Req, UseGuards, HttpStatus } from '@nestjs/common';
-import { TodosService } from './todos.service';
+import { TodosService } from '../services/todos.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Todos } from '../models/todo.model';
 import { AuthGuard } from '@nestjs/passport';
-import { MulterOptions } from '../multer-config';
-import { PhotoService } from '.././photo/photo.service';
+import { MulterOptions } from '../common/middlewares/multer-config';
+import { PhotoService } from '../services/photo.service';
 
 @Controller('todos')
 export class TodosController {
@@ -16,7 +16,6 @@ export class TodosController {
   @UseGuards(AuthGuard('jwt'))
   @Get()
   async getTodo(@Req() req, @Res() res) {
-    debugger;
     const user_id = req.user.id;
     const result = await this.todosService.getTodo(user_id);
     if (result != null) {

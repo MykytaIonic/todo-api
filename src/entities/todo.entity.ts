@@ -1,4 +1,4 @@
-export class CreateTodoDto {
+export class TodoEntity {
   readonly id: number;
   readonly title: string;
   readonly description: string;

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from "../user/user.service";
-import { User } from '.././models/user.model';
+import { UserService } from "./user.service";
+import { User } from '../models/user.model';
+import { ApplicationException } from '../common/exceptions/application.exception';
 import * as crypto from 'crypto';
 const jwt = require('jsonwebtoken');
 @Injectable()
@@ -21,15 +22,17 @@ export class AuthService {
     const userData = await this.validate(user);
 
     if (!userData) {
-      console.log('The user does not exists');
-      return { status: 404 };
+      //console.log('The user does not exists');
+      //return { status: 404 };
+      throw new ApplicationException(400, 'The user does not exists');
     }
 
     user.password = crypto.createHmac('sha256', user.password).digest('hex');
 
     if (userData.password != user.password) {
-      console.log('The password doesn\`t match.');
-      return { status: 400 };
+      //console.log('The password doesn\`t match.');
+      //return { status: 400 };
+      throw new ApplicationException(400, 'The password doesn\`t match');
     }
 
     let payload = userData;
@@ -47,8 +50,9 @@ export class AuthService {
     const userData = await this.validate(user);
 
     if (userData) {
-      console.log('The user already exists');
-      return { status: 400 };
+      //console.log('The user already exists');
+      //return { status: 400 };
+      throw new ApplicationException(400, "The user already exists");
     }
 
     user.password = crypto.createHmac('sha256', user.password).digest('hex');
