@@ -9,6 +9,7 @@ import { Photo } from './models/photo.model';
 import { PhotoModule } from './modules/photo.module';
 import { AuthController } from './controllers/auth.controller';
 import { TodosController } from './controllers/todos.controller';
+import { UsersController } from './controllers/user.controller';
 
 @Module({
   imports: [
@@ -26,6 +27,6 @@ import { TodosController } from './controllers/todos.controller';
     }),
     TypeOrmModule.forFeature([Todos, User, Photo]),
   ],
-  controllers: [AuthController, TodosController],
+  controllers: [AuthController, TodosController, UsersController],
 })
 export class AppModule { }
