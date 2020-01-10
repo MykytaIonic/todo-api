@@ -43,7 +43,6 @@ export class TodosService {
   }
 
   async updateSqlite(todoData): Promise<UpdateResult> {
-    debugger;
     let todo = todoData.updated;
     todo.forEach(a => {
       a.id = a.mongoId;
