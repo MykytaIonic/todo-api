@@ -10,6 +10,7 @@ import { PhotoModule } from './modules/photo.module';
 import { AuthController } from './controllers/auth.controller';
 import { TodosController } from './controllers/todos.controller';
 import { UsersController } from './controllers/user.controller';
+require('dotenv').config();
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { UsersController } from './controllers/user.controller';
     PhotoModule,
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb+srv://Mykyta:pilot123@cluster0-ojubb.mongodb.net/todos',
+      url: process.env.DB_URI,
       entities: [__dirname + '/**/*.model{.ts,.js}'],
       synchronize: true,
       useUnifiedTopology: true,
