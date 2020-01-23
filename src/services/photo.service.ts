@@ -11,7 +11,7 @@ export class PhotoService {
    @InjectRepository(Photo) private photoRepository: Repository<Photo>,
  ) {}
 
- async getPhoto(todoId): Promise<Photo[]> {
+ async getPhoto(todoId: number): Promise<Photo[]> {
   return await this.photoRepository.find({
     where: {
       todoId: String(todoId)
@@ -19,7 +19,7 @@ export class PhotoService {
   });
 }
 
-async remove(id, photoName): Promise<DeleteResult> {
+async remove(id: number, photoName: string): Promise<DeleteResult> {
   const fs = require('fs');
   const filename = photoName;
   const file = 'photos/';

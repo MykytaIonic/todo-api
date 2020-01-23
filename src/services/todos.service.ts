@@ -15,7 +15,7 @@ export class TodosService {
     @InjectRepository(Photo) private photoRepository: Repository<Photo>,
   ) { }
 
-  async getTodo(user_id): Promise<Todos[]> {
+  async getTodo(user_id: number): Promise<Todos[]> {
     return await this.todosRepository.find({
       where: {
         user_id: String(user_id)
@@ -52,7 +52,7 @@ export class TodosService {
     return await this.todosRepository.save(todoData.updated);
   }
 
-  async delete(id): Promise<DeleteResult> {
+  async delete(id: string): Promise<DeleteResult> {
     const res = await this.todosRepository.delete(id);
         if (res) {
             const photos = await this.photoRepository.find({
