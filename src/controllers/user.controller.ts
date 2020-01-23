@@ -1,5 +1,4 @@
-import { Controller, Res, UseGuards, HttpStatus, Body, Post } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Res, HttpStatus, Body, Post } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 
 @Controller('users')
