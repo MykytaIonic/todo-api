@@ -19,5 +19,8 @@ export class Todos {
   user_id: number;
 
   @Column()
+  mongoId: number;
+
+  @Column()
   position: string;
 }

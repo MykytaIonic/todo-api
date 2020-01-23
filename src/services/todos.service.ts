@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { Photo } from '../models/photo.model';
+import { todoDataEntity } from '../entities/todoData.entity';
 
 @Injectable()
 export class TodosService {
@@ -23,7 +24,7 @@ export class TodosService {
     });
   }
 
-  async create(todoData): Promise<Todos> {
+  async create(todoData: todoDataEntity): Promise<Todos> {
     const { photos, todo } = todoData;
 
     const todoSave = await this.todosRepository.save(todo);
@@ -42,7 +43,7 @@ export class TodosService {
     return await this.todosRepository.update(todo.id, todo);
   }
 
-  async updateSqlite(todoData): Promise<UpdateResult> {
+  async updateSqlite(todoData: todoDataEntity): Promise<Todos[]> {
     let todo = todoData.updated;
     todo.forEach(a => {
       a.id = a.mongoId;
@@ -72,7 +73,7 @@ export class TodosService {
         return res;
   }
 
-  async deleteSqlite(todoData): Promise<DeleteResult> {
+  async deleteSqlite(todoData: todoDataEntity): Promise<DeleteResult> {
     const { deleted } = todoData;
     return this.todosRepository.delete(deleted);
   }

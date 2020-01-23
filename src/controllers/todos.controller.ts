@@ -30,7 +30,7 @@ export class TodosController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('create')
-    async create(@Body() todoData, @Res() res): Promise<any> {
+    async create(@Body() todoData, @Res() res): Promise<Object> {
       const result = await this.todosService.create(todoData);
       if (result != null) {
         res.status(HttpStatus.OK).send(result);
@@ -40,11 +40,12 @@ export class TodosController {
           msg: 'Bad Request'
         });
       }
+      return result;
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Put('update/:id')
-    async update(@Param('id') id, @Body() todoData: Todos, @Res() res): Promise<any> {
+    async update(@Param('id') id, @Body() todoData: Todos, @Res() res): Promise<Object> {
         todoData.id = (id);
         const result = await this.todosService.update(todoData);
         if (result != null) {
@@ -55,12 +56,13 @@ export class TodosController {
             msg: 'Internal Error'
           });
         }
-        console.log('Update #' + todoData.id)
+        console.log('Update #' + todoData.id);
+        return result;
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Put('update')
-    async updateSqlite(@Body() todoData: Todos, @Res() res): Promise<any> {
+    async updateSqlite(@Body() todoData: Todos, @Res() res): Promise<Todos> {
       const result = await this.todosService.updateSqlite(todoData);
       if (result != null) {
         res.status(HttpStatus.OK).send(result);
@@ -70,12 +72,13 @@ export class TodosController {
           msg: 'Bad Request'
         });
       }
+      return result;
   }
 
 
   @UseGuards(AuthGuard('jwt'))
   @Delete('delete/:id')
-     async delete(@Param('id') id, @Res() res): Promise<any> {
+     async delete(@Param('id') id, @Res() res): Promise<Object> {
        const result = await this.todosService.delete(id);
        if (result != null) {
         res.status(HttpStatus.OK).send(result);
@@ -85,11 +88,12 @@ export class TodosController {
           msg: 'Internal Error'
         });
       }
+      return result;
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Post('delete')
-     async deleteSqlite(@Body() todoData, @Res() res): Promise<any> {
+     async deleteSqlite(@Body() todoData, @Res() res): Promise<Object> {
        const result = await this.todosService.deleteSqlite(todoData);
        if (result != null) {
         res.status(HttpStatus.OK).send(result);
@@ -99,6 +103,7 @@ export class TodosController {
           msg: 'Bad Request'
         });
       }
+      return result;
   }
 
   @Post('image/:id')
@@ -146,7 +151,7 @@ export class TodosController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('photo/delete/:id')
-     async remove(@Param('id') id, @Body('name') photoName, @Res() res): Promise<any> {
+     async remove(@Param('id') id, @Body('name') photoName, @Res() res): Promise<Object> {
        const result = await this.photoService.remove(id, photoName);
        if (result != null) {
         res.status(HttpStatus.OK).send(result);
@@ -156,6 +161,7 @@ export class TodosController {
           msg: 'Can not delete photo'
         });
       }
+      return result;
   }
 
 }

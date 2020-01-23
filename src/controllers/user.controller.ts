@@ -8,10 +8,10 @@ export class UsersController {
   ) {}
 
   @Post('find')
-    async findEmail(@Body() data, @Res() res): Promise<any> {
+    async findEmail(@Body() data, @Res() res): Promise<Object> {
         const email = data.email;
         const result = await this.userService.findByEmail(email);
         res.status(HttpStatus.OK).send(result);
-        console.log(result);
+        return result;
   }
 }
