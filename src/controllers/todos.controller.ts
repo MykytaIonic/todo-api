@@ -62,7 +62,7 @@ export class TodosController {
 
   @UseGuards(AuthGuard('jwt'))
   @Put('update')
-    async updateSqlite(@Body() todoData: Todos, @Res() res): Promise<Todos> {
+    async updateSqlite(@Body() todoData, @Res() res): Promise<Object> {
       const result = await this.todosService.updateSqlite(todoData);
       if (result != null) {
         res.status(HttpStatus.OK).send(result);
