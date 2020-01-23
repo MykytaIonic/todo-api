@@ -30,7 +30,7 @@ async remove(id: number, photoName: string): Promise<DeleteResult> {
   return await this.photoRepository.delete(id);
 }
 
- async changeImage(id: string, imageName: string){
+ async changeImage(id: string, imageName: string): Promise<Photo> {
     const photo = {
         todoId: id,
         name: imageName
