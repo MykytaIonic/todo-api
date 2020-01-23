@@ -72,7 +72,7 @@ export class TodosService {
         return res;
   }
 
-  async deleteSqlite(todoData) {
+  async deleteSqlite(todoData): Promise<DeleteResult> {
     const { deleted } = todoData;
     return this.todosRepository.delete(deleted);
   }

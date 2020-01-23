@@ -23,7 +23,7 @@ export class TodosController {
     }
     if (user_id == null) {
       res.status(HttpStatus.NOT_FOUND).send({
-        msg: 'Bad Request'
+        msg: 'Todos Not Found'
       });
     }
   }
@@ -52,7 +52,7 @@ export class TodosController {
         }
         if (todoData == null) {
           res.status(HttpStatus.NOT_FOUND).send({
-            msg: 'Bad Request'
+            msg: 'Internal Error'
           });
         }
         console.log('Update #' + todoData.id)
@@ -82,7 +82,7 @@ export class TodosController {
       }
       if (id == null) {
         res.status(HttpStatus.NOT_FOUND).send({
-          msg: 'Bad Request'
+          msg: 'Internal Error'
         });
       }
   }
@@ -110,7 +110,7 @@ export class TodosController {
     }
     if (id == null) {
       res.status(HttpStatus.NOT_FOUND).send({
-        msg: 'Bad Request'
+        msg: 'Can not change image'
       });
     }
   }
@@ -124,7 +124,7 @@ export class TodosController {
     }
     if (id == null) {
       res.status(HttpStatus.NOT_FOUND).send({
-        msg: 'Bad Request'
+        msg: 'Can not upload image'
       });
     }
   }
@@ -153,7 +153,7 @@ export class TodosController {
       }
       if (id == null) {
         res.status(HttpStatus.NOT_FOUND).send({
-          msg: 'Bad Request'
+          msg: 'Can not delete photo'
         });
       }
   }

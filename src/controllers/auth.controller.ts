@@ -19,7 +19,6 @@ export class AuthController {
       });
 
     } catch (e) {
-      debugger
       res.status(e.status).send({
         msg: e.message,
       });
@@ -51,7 +50,7 @@ export class AuthController {
       });
     }
     if (result.status === 400) {
-      res.status(HttpStatus.NOT_FOUND).send({
+      res.status(HttpStatus.FOUND).send({
         msg: 'The user already exists'
       });
     }

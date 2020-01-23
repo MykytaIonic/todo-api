@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from "./user.service";
 import { User } from '../models/user.model';
+import { TokenEntity } from '../entities/token.entity';
 import { ApplicationException } from '../common/exceptions/application.exception';
 import * as crypto from 'crypto';
 const jwt = require('jsonwebtoken');
@@ -18,7 +19,7 @@ export class AuthService {
     return await this.userService.findById(id);
   }
 
-  public async login(user: User): Promise<any | { status: number }> {
+  public async login(user: User): Promise<TokenEntity | { status: number }> {
     const userData = await this.validate(user);
 
     if (!userData) {
@@ -42,7 +43,7 @@ export class AuthService {
     };
   }
 
-  public async register(user: User): Promise<any> {
+  public async register(user: User): Promise<TokenEntity> {
     const userData = await this.validate(user);
 
     if (userData) {
@@ -61,7 +62,7 @@ export class AuthService {
     };
   }
 
-  public async registerSocial(user: User): Promise<any> {
+  public async registerSocial(user: User): Promise<TokenEntity> {
     const userData = await this.validate(user);
 
     if (userData) {
