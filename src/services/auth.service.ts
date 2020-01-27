@@ -19,7 +19,7 @@ export class AuthService {
     return await this.userService.findById(id);
   }
 
-  public async login(user: User): Promise<TokenEntity | { status: number }> {
+  public async login(user: User): Promise<TokenEntity> {
     const userData = await this.validate(user);
 
     if (!userData) {

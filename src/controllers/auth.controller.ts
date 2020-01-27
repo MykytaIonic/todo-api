@@ -2,6 +2,7 @@ import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user.model';
 import { UserService } from "../services/user.service";
+import { TokenEntity } from 'src/entities/token.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -11,7 +12,7 @@ export class AuthController {
     }
 
   @Post('login')
-  async login(@Body() user: User, @Res() res): Promise<Object> {
+  async login(@Body() user: User, @Res() res): Promise<TokenEntity> {
     try {
       const result = await this.authService.login(user);
 
@@ -28,7 +29,7 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() user: User, @Res() res): Promise<Object> {
+  async register(@Body() user: User, @Res() res): Promise<TokenEntity> {
     let re
     try {
     const result = await this.authService.register(user);
@@ -46,7 +47,7 @@ export class AuthController {
   }
 
   @Post('registerSocial')
-  async registerSocial(@Body() user: User, @Res() res): Promise<Object> {
+  async registerSocial(@Body() user: User, @Res() res): Promise<TokenEntity> {
     const result = await this.authService.registerSocial(user);
     if (result.status === 200) {
       res.status(HttpStatus.CREATED).send({
